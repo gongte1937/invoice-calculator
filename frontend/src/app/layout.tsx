@@ -1,13 +1,8 @@
-// src/app/layout.tsx
-import type { Metadata } from "next";
+"use client";
+
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@/styles/themes";
-
-export const metadata: Metadata = {
-  title: "Multi-Currency Invoice",
-  description: "Invoice calculator (Next.js + MUI)",
-};
 
 export default function RootLayout({
   children,
