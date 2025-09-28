@@ -15,7 +15,9 @@ const InvoiceSchema = z.object({
     message: "Date must be after 1999-01-04",
   }),
   currency: z.enum(currencies as [string, ...string[]]),
-  line: InvoiceLineSchema,
+  lines: z
+    .array(InvoiceLineSchema)
+    .min(1, "At least one line item is required"),
 });
 
 export type InvoiceFormData = z.infer<typeof InvoiceSchema>;
@@ -45,7 +47,7 @@ export default function InvoiceFormWrapper({
     defaultValues: {
       date: new Date(),
       currency: "NZD",
-      line: { description: "", amount: 0, currency: "USD" },
+      lines: [{ description: "", amount: 0, currency: "USD" }],
       ...defaultValues,
     },
   });

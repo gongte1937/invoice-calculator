@@ -46,8 +46,8 @@ export default function InvoiceForm({
                   error={errors.currency}
                 />
 
-                {/* Line Item */}
-                <LineItemForm control={control} errors={errors.line} />
+                {/* Line Items */}
+                <LineItemForm control={control} errors={errors} />
 
                 <Button type="submit" variant="contained">
                   Calculate Total
