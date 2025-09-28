@@ -4,6 +4,8 @@ import com.verifyme.client.FrankfurterClient;
 import com.verifyme.client.FrankfurterResponse;
 import com.verifyme.model.InvoiceLine;
 import com.verifyme.model.InvoicePayload;
+import com.verifyme.utils.Roundings;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
@@ -12,10 +14,13 @@ import jakarta.ws.rs.NotFoundException;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 @ApplicationScoped
 public class InvoiceService {
 
   @Inject
+  @RestClient
   FrankfurterClient frankfurter;
 
   private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
