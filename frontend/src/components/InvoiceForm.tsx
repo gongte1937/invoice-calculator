@@ -13,11 +13,17 @@ import ResultPanel from "./ResultPanel";
 interface InvoiceFormProps {
   onSubmit?: (data: InvoiceFormData) => void;
   defaultValues?: Partial<InvoiceFormData>;
+  total?: string | null;
+  error?: string | null;
+  loading?: boolean;
 }
 
 export default function InvoiceForm({
   onSubmit,
   defaultValues,
+  total,
+  error,
+  loading,
 }: InvoiceFormProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -58,7 +64,7 @@ export default function InvoiceForm({
         </InvoiceFormWrapper>
       </Paper>
 
-      <ResultPanel baseCurrency="NZD" />
+      <ResultPanel baseCurrency="NZD" total={total} error={error} />
     </LocalizationProvider>
   );
 }
