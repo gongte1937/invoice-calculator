@@ -17,7 +17,7 @@ import CurrencySelector from "./CurrencySelector";
 
 interface LineItemData {
   description: string;
-  amount: number;
+  amount: number | null;
   currency: string;
 }
 
@@ -33,7 +33,7 @@ export default function LineItemForm({ control, errors }: LineItemFormProps) {
   });
 
   const addLineItem = () => {
-    append({ description: "", amount: 0, currency: "USD" });
+    append({ description: "", amount: null, currency: "USD" });
   };
 
   const removeLineItem = (index: number) => {
@@ -90,7 +90,11 @@ export default function LineItemForm({ control, errors }: LineItemFormProps) {
                   label="Amount"
                   type="number"
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  value={field.value ?? ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === "" ? undefined : Number(value));
+                  }}
                   error={!!errors?.lines?.[index]?.amount}
                   helperText={errors?.lines?.[index]?.amount?.message}
                 />

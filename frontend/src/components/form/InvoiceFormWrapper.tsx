@@ -5,8 +5,12 @@ import { currencies } from "./CurrencySelector";
 
 // Zod validation schema
 const InvoiceLineSchema = z.object({
-  description: z.string().min(1, "Required"),
-  amount: z.number().positive("Must be > 0"),
+  description: z.string().min(1, "Description is required"),
+  amount: z
+    .number()
+    .positive("Must be > 0")
+    .nullable()
+    .refine((val) => val !== null, "Amount is required"),
   currency: z.enum(currencies as [string, ...string[]]),
 });
 
@@ -47,7 +51,7 @@ export default function InvoiceFormWrapper({
     defaultValues: {
       date: new Date(),
       currency: "NZD",
-      lines: [{ description: "", amount: 0, currency: "USD" }],
+      lines: [{ description: "", amount: null, currency: "USD" }],
       ...defaultValues,
     },
   });

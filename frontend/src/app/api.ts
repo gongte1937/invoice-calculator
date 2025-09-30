@@ -7,7 +7,9 @@ const api = axios.create({
 
 export async function postInvoiceTotal(payload: unknown): Promise<string> {
   try {
-    const res = await api.post<string>("/invoice/total", payload, {
+    // Wrap the payload in the expected format
+    const requestBody = { invoice: payload };
+    const res = await api.post<string>("/invoice/total", requestBody, {
       responseType: "text",
     });
     return res.data;
