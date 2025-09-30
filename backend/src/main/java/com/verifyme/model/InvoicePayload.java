@@ -1,6 +1,5 @@
 package com.verifyme.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +12,6 @@ public class InvoicePayload {
   public String currency;
 
   @NotNull
-  @JsonFormat(pattern = "yyyy-MM-dd")
   public LocalDate date;
 
   @NotNull
