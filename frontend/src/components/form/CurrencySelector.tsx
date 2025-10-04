@@ -1,8 +1,6 @@
 import { TextField, MenuItem } from "@mui/material";
 import { Control, Controller, FieldError } from "react-hook-form";
-
-// Static currency list (can be extended later)
-export const currencies = ["NZD", "USD", "AUD", "EUR", "GBP", "JPY"];
+import { CURRENCIES } from "@/app/constants";
 
 interface CurrencySelectorProps {
   name: string;
@@ -29,7 +27,7 @@ export default function CurrencySelector({
           error={!!error}
           helperText={error?.message}
         >
-          {currencies.map((currency) => (
+          {CURRENCIES.map((currency) => (
             <MenuItem key={currency} value={currency}>
               {currency}
             </MenuItem>

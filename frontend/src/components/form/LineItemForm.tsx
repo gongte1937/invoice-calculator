@@ -14,6 +14,7 @@ import {
 } from "react-hook-form";
 import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import CurrencySelector from "./CurrencySelector";
+import { DEFAULT_LINE_CURRENCY } from "@/app/constants";
 
 interface LineItemData {
   description: string;
@@ -33,7 +34,7 @@ export default function LineItemForm({ control, errors }: LineItemFormProps) {
   });
 
   const addLineItem = () => {
-    append({ description: "", amount: null, currency: "USD" });
+    append({ description: "", amount: null, currency: DEFAULT_LINE_CURRENCY });
   };
 
   const removeLineItem = (index: number) => {
