@@ -15,6 +15,6 @@ public class InvoicePayload {
   public LocalDate date;
 
   @NotNull
-  @Size(min = 1)
+  @Size(min = 1, message = "At least one invoice line is required")
   public List<@Valid InvoiceLine> lines;
 }

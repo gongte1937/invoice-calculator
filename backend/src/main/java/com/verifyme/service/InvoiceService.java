@@ -2,6 +2,7 @@ package com.verifyme.service;
 
 import com.verifyme.client.FrankfurterClient;
 import com.verifyme.client.FrankfurterResponse;
+import com.verifyme.config.InvoiceConfig;
 import com.verifyme.model.InvoiceLine;
 import com.verifyme.model.InvoicePayload;
 import com.verifyme.utils.Roundings;
@@ -23,6 +24,9 @@ public class InvoiceService {
   @RestClient
   FrankfurterClient frankfurter;
 
+  @Inject
+  InvoiceConfig config;
+
   private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   /**
@@ -37,9 +41,9 @@ public class InvoiceService {
     for (InvoiceLine line : payload.lines) {
       final String from = line.currency.trim().toUpperCase();
 
-      // same currency: directly add the amount to 2 decimal places
+      // same currency: directly add the amount with configured decimal places
       if (from.equals(base)) {
-        total = total.add(Roundings.money2(line.amount));
+        total = total.add(Roundings.money(line.amount, config.decimal().moneyScale()));
         continue;
       }
 
@@ -48,28 +52,28 @@ public class InvoiceService {
       try {
         resp = frankfurter.getHistoricalRate(date, from, base);
       } catch (Exception e) {
-        throw new NotFoundException("cannot fetch exchange rate for %s->%s on %s"
+        throw new NotFoundException(config.error().exchangeRateFetchErrorTemplate()
             .formatted(from, base, date));
       }
 
       if (resp == null || resp.rates == null || !resp.rates.containsKey(base)) {
-        throw new NotFoundException("exchange rate not found for %s->%s on %s"
+        throw new NotFoundException(config.error().exchangeRateNotFoundTemplate()
             .formatted(from, base, date));
       }
 
-      // exchange rate 4 decimal places
-      BigDecimal rate = Roundings.rate4(BigDecimal.valueOf(resp.rates.get(base)));
+      // exchange rate with configured decimal places
+      BigDecimal rate = Roundings.rate(BigDecimal.valueOf(resp.rates.get(base)), config.decimal().rateScale());
       if (rate.compareTo(BigDecimal.ZERO) <= 0) {
-        throw new BadRequestException("invalid rate for %s->%s on %s"
+        throw new BadRequestException(config.error().invalidRateTemplate()
             .formatted(from, base, date));
       }
 
-      // line total = amount * exchange rate → amount 2 decimal places
-      BigDecimal lineTotal = Roundings.money2(line.amount.multiply(rate));
+      // line total = amount * exchange rate with configured decimal places
+      BigDecimal lineTotal = Roundings.money(line.amount.multiply(rate), config.decimal().moneyScale());
       total = total.add(lineTotal);
     }
 
-    // total 2 decimal places
-    return Roundings.money2(total);
+    // total with configured decimal places
+    return Roundings.money(total, config.decimal().moneyScale());
   }
 }
