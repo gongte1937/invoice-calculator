@@ -4,13 +4,14 @@ import { Button, Stack, Typography, Paper } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-import InvoiceFormWrapper, { InvoiceFormData } from "./form/InvoiceFormWrapper";
 import DatePickerField from "./form/DatePickerField";
 import CurrencySelector from "./form/CurrencySelector";
 import LineItemForm from "./form/LineItemForm";
 import ResultPanel from "./ResultPanel";
 import { useEffect, useState } from "react";
-import { DEFAULT_BASE_CURRENCY } from "@/app/constants";
+import { DEFAULT_BASE_CURRENCY } from "@/constants";
+import { InvoiceFormData } from "@/lib/validation";
+import InvoiceFormWrapper from "./form/InvoiceFormWrapper";
 
 interface InvoiceFormProps {
   onSubmit?: (data: InvoiceFormData) => void;

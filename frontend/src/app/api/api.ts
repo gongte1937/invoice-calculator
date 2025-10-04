@@ -1,4 +1,4 @@
-import { InvoiceFormData } from "@/components/form/InvoiceFormWrapper";
+import { InvoiceFormData } from "@/lib/validation";
 import axios from "axios";
 
 const api = axios.create({

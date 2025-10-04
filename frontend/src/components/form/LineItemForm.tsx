@@ -14,7 +14,7 @@ import {
 } from "react-hook-form";
 import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import CurrencySelector from "./CurrencySelector";
-import { DEFAULT_LINE_CURRENCY } from "@/app/constants";
+import { DEFAULT_LINE_CURRENCY } from "@/constants";
 
 interface LineItemData {
   description: string;

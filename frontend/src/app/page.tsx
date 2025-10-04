@@ -1,10 +1,10 @@
 "use client";
 
-import { InvoiceFormData } from "@/components/form/InvoiceFormWrapper";
+import { InvoiceFormData } from "@/lib/validation";
 import InvoiceForm from "@/components/InvoiceForm";
 import { Container, Typography } from "@mui/material";
 import { useState } from "react";
-import { postInvoiceTotal } from "./api";
+import { postInvoiceTotal } from "./api/api";
 
 export default function HomePage() {
   const [total, setTotal] = useState<string | null>(null);

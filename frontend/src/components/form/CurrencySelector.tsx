@@ -1,6 +1,6 @@
 import { TextField, MenuItem } from "@mui/material";
 import { Control, Controller, FieldError } from "react-hook-form";
-import { CURRENCIES } from "@/app/constants";
+import { CURRENCIES } from "@/constants";
 
 interface CurrencySelectorProps {
   name: string;

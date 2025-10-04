@@ -1,4 +1,5 @@
 import { postInvoiceTotal } from "./api";
+import { Currency } from "../../constants";
 
 // Mock axios with simplified setup
 jest.mock("axios", () => {
@@ -20,9 +21,9 @@ describe("API Functions", () => {
   describe("postInvoiceTotal", () => {
     const mockPayload = {
       date: new Date("2024-01-15"),
-      currency: "NZD" as const,
+      currency: Currency.NZD,
       lines: [
-        { description: "Test item", amount: 100, currency: "USD" as const },
+        { description: "Test item", amount: 100, currency: Currency.USD },
       ],
     };
 
