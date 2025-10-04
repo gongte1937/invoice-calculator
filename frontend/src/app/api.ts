@@ -1,3 +1,4 @@
+import { InvoiceFormData } from "@/components/form/InvoiceFormWrapper";
 import axios from "axios";
 
 const api = axios.create({
@@ -5,7 +6,9 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-export async function postInvoiceTotal(payload: unknown): Promise<string> {
+export async function postInvoiceTotal(
+  payload: InvoiceFormData
+): Promise<string> {
   try {
     // Wrap the payload in the expected format
     const requestBody = { invoice: payload };
