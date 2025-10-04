@@ -64,7 +64,12 @@ export default function InvoiceForm({
         </InvoiceFormWrapper>
       </Paper>
 
-      <ResultPanel baseCurrency="NZD" total={total} error={error} />
+      <ResultPanel
+        baseCurrency="NZD"
+        total={total}
+        error={error}
+        loading={loading}
+      />
     </LocalizationProvider>
   );
 }
