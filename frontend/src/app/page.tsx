@@ -22,6 +22,7 @@ export default function HomePage() {
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Invoice calculation error";
+      console.log("errorMessage", errorMessage);
       setError(errorMessage);
       console.error("Invoice calculation error:", err);
     } finally {

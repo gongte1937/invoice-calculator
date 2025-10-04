@@ -9,9 +9,16 @@ const api = axios.create({
 export async function postInvoiceTotal(
   payload: InvoiceFormData
 ): Promise<string> {
+  const mockPayloads = {
+    invalidStructure: {
+      date: new Date("2024-01-15"),
+      currency: "USD",
+      lines: [{ description: "Test item", amount: 100, currency: "USD" }],
+    },
+  };
   try {
     // Wrap the payload in the expected format
-    const requestBody = { invoice: payload };
+    const requestBody = { invoice: mockPayloads };
     const res = await api.post<string>("/invoice/total", requestBody, {
       responseType: "text",
     });
