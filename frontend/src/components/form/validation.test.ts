@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CURRENCIES } from "../../../app/constants";
+import { CURRENCIES } from "@/app/constants";
 
 // Import the validation schemas from InvoiceFormWrapper
 // We'll recreate them here for testing since they're not exported
