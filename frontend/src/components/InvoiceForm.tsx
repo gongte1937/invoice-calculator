@@ -9,6 +9,8 @@ import DatePickerField from "./form/DatePickerField";
 import CurrencySelector from "./form/CurrencySelector";
 import LineItemForm from "./form/LineItemForm";
 import ResultPanel from "./ResultPanel";
+import { useEffect, useState } from "react";
+import { DEFAULT_BASE_CURRENCY } from "@/app/constants";
 
 interface InvoiceFormProps {
   onSubmit?: (data: InvoiceFormData) => void;
@@ -25,6 +27,20 @@ export default function InvoiceForm({
   error,
   loading,
 }: InvoiceFormProps) {
+  const [lastBaseCurrency, setLastBaseCurrency] = useState(
+    defaultValues?.currency ?? DEFAULT_BASE_CURRENCY
+  );
+
+  useEffect(() => {
+    setLastBaseCurrency(defaultValues?.currency ?? DEFAULT_BASE_CURRENCY);
+  }, [defaultValues?.currency]);
+
+  const handleFormSubmit = (data: InvoiceFormData) => {
+    setLastBaseCurrency(data.currency);
+    if (onSubmit) {
+      onSubmit(data);
+    }
+  };
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Paper sx={{ p: 4, mt: 4 }}>
@@ -32,7 +48,10 @@ export default function InvoiceForm({
           Invoice Form
         </Typography>
 
-        <InvoiceFormWrapper onSubmit={onSubmit} defaultValues={defaultValues}>
+        <InvoiceFormWrapper
+          onSubmit={handleFormSubmit}
+          defaultValues={defaultValues}
+        >
           {({ control, handleSubmit, errors }) => (
             <form onSubmit={handleSubmit}>
               <Stack spacing={3}>
@@ -65,7 +84,7 @@ export default function InvoiceForm({
       </Paper>
 
       <ResultPanel
-        baseCurrency="NZD"
+        baseCurrency={lastBaseCurrency}
         total={total}
         error={error}
         loading={loading}
