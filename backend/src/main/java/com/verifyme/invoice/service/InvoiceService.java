@@ -56,30 +56,7 @@ public class InvoiceService {
       }
 
       // get historical exchange rate
-      logger.debug("Fetching exchange rate: {} -> {} for date {}", from, base, date);
-      FrankfurterResponse resp;
-      try {
-        resp = frankfurter.getHistoricalRate(date, from, base);
-      } catch (Exception e) {
-        logger.error("Failed to fetch exchange rate: {} -> {} for date {}: {}", 
-                    from, base, date, e.getMessage());
-        throw new NotFoundException(config.error().exchangeRateFetchErrorTemplate()
-            .formatted(from, base, date));
-      }
-
-      if (resp == null || resp.rates == null || !resp.rates.containsKey(base)) {
-        logger.error("Exchange rate not found: {} -> {} for date {}", from, base, date);
-        throw new NotFoundException(config.error().exchangeRateNotFoundTemplate()
-            .formatted(from, base, date));
-      }
-
-      // exchange rate with configured decimal places
-      BigDecimal rate = Roundings.rate(BigDecimal.valueOf(resp.rates.get(base)), config.decimal().rateScale());
-      if (rate.compareTo(BigDecimal.ZERO) <= 0) {
-        logger.error("Invalid exchange rate: {} for {} -> {} on {}", rate, from, base, date);
-        throw new BadRequestException(config.error().invalidRateTemplate()
-            .formatted(from, base, date));
-      }
+      BigDecimal rate = getExchangeRate(from, base, date);
 
       // line total = amount * exchange rate with configured decimal places
       BigDecimal lineTotal = Roundings.money(line.amount.multiply(rate), config.decimal().moneyScale());
@@ -92,5 +69,45 @@ public class InvoiceService {
     BigDecimal finalTotal = Roundings.money(total, config.decimal().moneyScale());
     logger.info("Invoice calculation completed - total: {} {}", finalTotal, base);
     return finalTotal;
+  }
+
+  /**
+   * Get historical exchange rate from one currency to another for a specific date
+   * 
+   * @param from source currency code
+   * @param base target currency code  
+   * @param date date in yyyy-MM-dd format
+   * @return exchange rate with configured decimal places
+   * @throws NotFoundException if exchange rate cannot be fetched or not found
+   * @throws BadRequestException if exchange rate is invalid (≤ 0)
+   */
+  private BigDecimal getExchangeRate(String from, String base, String date) {
+    logger.debug("Fetching exchange rate: {} -> {} for date {}", from, base, date);
+    
+    FrankfurterResponse resp;
+    try {
+      resp = frankfurter.getHistoricalRate(date, from, base);
+    } catch (Exception e) {
+      logger.error("Failed to fetch exchange rate: {} -> {} for date {}: {}", 
+                  from, base, date, e.getMessage());
+      throw new NotFoundException(config.error().exchangeRateFetchErrorTemplate()
+          .formatted(from, base, date));
+    }
+
+    if (resp == null || resp.rates == null || !resp.rates.containsKey(base)) {
+      logger.error("Exchange rate not found: {} -> {} for date {}", from, base, date);
+      throw new NotFoundException(config.error().exchangeRateNotFoundTemplate()
+          .formatted(from, base, date));
+    }
+
+    // exchange rate with configured decimal places
+    BigDecimal rate = Roundings.rate(BigDecimal.valueOf(resp.rates.get(base)), config.decimal().rateScale());
+    if (rate.compareTo(BigDecimal.ZERO) <= 0) {
+      logger.error("Invalid exchange rate: {} for {} -> {} on {}", rate, from, base, date);
+      throw new BadRequestException(config.error().invalidRateTemplate()
+          .formatted(from, base, date));
+    }
+
+    return rate;
   }
 }
