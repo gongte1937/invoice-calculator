@@ -27,7 +27,6 @@ The chosen architecture is both highly scalable and cost-efficient.
 
 ### Infrastructure as Code
 
-- I would automate the provisioning of the AWS infrastructure using Terraform.
-  This includes defining resources such as the ECR repository, App Runner service, Route 53 domain records, and ACM certificates as code.
+- I would automate the provisioning of the AWS infrastructure using Terraform. This includes defining resources such as the ECR repository, App Runner service, Route 53 domain records, and ACM certificates as code.
 - Secrets would be stored in AWS SSM Parameter Store and accessed securely through least-privilege IAM roles.
 - The CI/CD pipeline (via GitHub Actions with OIDC) would automatically run terraform plan and apply to deploy updates, ensuring consistent, repeatable, and secure infrastructure setup.
