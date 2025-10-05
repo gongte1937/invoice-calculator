@@ -1,4 +1,4 @@
-package com.verifyme.model;
+package com.verifyme.invoice.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
+
+import com.verifyme.invoice.model.InvoiceLine;
 
 public class InvoicePayload {
   @NotBlank

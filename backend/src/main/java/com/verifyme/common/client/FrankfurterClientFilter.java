@@ -1,4 +1,4 @@
-package com.verifyme.client;
+package com.verifyme.common.client;
 
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientRequestFilter;

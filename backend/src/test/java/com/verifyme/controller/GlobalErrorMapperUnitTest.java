@@ -6,6 +6,8 @@ import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.verifyme.common.error.GlobalErrorMapper;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GlobalErrorMapperUnitTest {

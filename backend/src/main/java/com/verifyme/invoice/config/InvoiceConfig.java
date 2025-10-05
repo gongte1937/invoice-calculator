@@ -1,4 +1,4 @@
-package com.verifyme.config;
+package com.verifyme.invoice.config;
 
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;

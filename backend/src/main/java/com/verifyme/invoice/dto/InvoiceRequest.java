@@ -1,4 +1,4 @@
-package com.verifyme.model;
+package com.verifyme.invoice.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

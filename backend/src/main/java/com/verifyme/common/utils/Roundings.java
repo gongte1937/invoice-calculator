@@ -1,4 +1,4 @@
-package com.verifyme.utils;
+package com.verifyme.common.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

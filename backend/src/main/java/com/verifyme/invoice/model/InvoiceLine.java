@@ -1,4 +1,4 @@
-package com.verifyme.model;
+package com.verifyme.invoice.model;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;

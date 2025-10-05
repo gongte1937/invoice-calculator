@@ -1,4 +1,4 @@
-package com.verifyme.client;
+package com.verifyme.common.client;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

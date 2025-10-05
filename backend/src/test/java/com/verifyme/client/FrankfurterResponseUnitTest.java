@@ -1,6 +1,8 @@
 package com.verifyme.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.verifyme.common.client.FrankfurterResponse;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

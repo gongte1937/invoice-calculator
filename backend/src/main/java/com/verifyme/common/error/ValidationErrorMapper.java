@@ -1,4 +1,4 @@
-package com.verifyme.controller;
+package com.verifyme.common.error;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;

@@ -1,11 +1,11 @@
-package com.verifyme.service;
+package com.verifyme.invoice.service;
 
-import com.verifyme.client.FrankfurterClient;
-import com.verifyme.client.FrankfurterResponse;
-import com.verifyme.config.InvoiceConfig;
-import com.verifyme.model.InvoiceLine;
-import com.verifyme.model.InvoicePayload;
-import com.verifyme.utils.Roundings;
+import com.verifyme.common.client.FrankfurterClient;
+import com.verifyme.common.client.FrankfurterResponse;
+import com.verifyme.common.utils.Roundings;
+import com.verifyme.invoice.config.InvoiceConfig;
+import com.verifyme.invoice.model.InvoiceLine;
+import com.verifyme.invoice.dto.InvoicePayload;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

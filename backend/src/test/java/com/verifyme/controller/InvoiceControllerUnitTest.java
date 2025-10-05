@@ -1,7 +1,9 @@
 package com.verifyme.controller;
 
-import com.verifyme.model.InvoiceRequest;
-import com.verifyme.service.InvoiceService;
+import com.verifyme.invoice.model.InvoiceRequest;
+import com.verifyme.invoice.resource.InvoiceResource;
+import com.verifyme.invoice.service.InvoiceService;
+
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
@@ -26,7 +28,7 @@ class InvoiceControllerUnitTest {
     private InvoiceService invoiceService;
 
     @InjectMocks
-    private InvoiceController invoiceController;
+    private InvoiceResource invoiceController;
 
     private InvoiceRequest testRequest;
 

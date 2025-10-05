@@ -1,9 +1,11 @@
 package com.verifyme.service;
 
-import com.verifyme.client.FrankfurterClient;
-import com.verifyme.client.FrankfurterResponse;
-import com.verifyme.model.InvoiceLine;
-import com.verifyme.model.InvoicePayload;
+import com.verifyme.common.client.FrankfurterClient;
+import com.verifyme.common.client.FrankfurterResponse;
+import com.verifyme.invoice.model.InvoiceLine;
+import com.verifyme.invoice.dto.InvoicePayload;
+import com.verifyme.invoice.service.InvoiceService;
+
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;

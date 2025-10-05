@@ -1,6 +1,7 @@
-package com.verifyme.controller;
+package com.verifyme.common.error;
 
-import com.verifyme.config.InvoiceConfig;
+import com.verifyme.invoice.config.InvoiceConfig;
+
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.BadRequestException;

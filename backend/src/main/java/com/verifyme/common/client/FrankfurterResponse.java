@@ -1,4 +1,4 @@
-package com.verifyme.client;
+package com.verifyme.common.client;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Map;

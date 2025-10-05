@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.verifyme.common.utils.Roundings;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
