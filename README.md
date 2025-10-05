@@ -2,27 +2,32 @@
 
 ### Frontend Hosting
 
-- **Static asset hosting** on a global CDN such as **Vercel**, **Netlify**, or **AWS Amplify Hosting** provides low-latency delivery for the Next.js build output.
-- Configure automatic builds on pushes to the main branch and enable cache invalidation to keep assets up to date.
+- For now **Vercel** would be the best choice for frontend deployment, it provides the simplest setup and best native support for Next.js, including automatic builds, preview environments, and global CDN delivery.
+- In the future, if full AWS integration is preferred, the frontend can be migrated to **AWS Amplify** Hosting to unify hosting, monitoring, and cost management within AWS.
 
 ### Backend Deployment on AWS
 
-- Package the Quarkus service into a container image and deploy it to **AWS Elastic Container Service (ECS)** on **Fargate** for managed compute, or alternatively to **Elastic Beanstalk** for simplified provisioning.
-- Store container images in **Amazon Elastic Container Registry (ECR)** and use **Application Load Balancer** to route HTTPS traffic to backend tasks across multiple Availability Zones for resilience.
+- The backend should be deployed on **AWS App Runner**, which provides a fully managed container environment with automatic HTTPS, health checks, and scaling.
+- **App Runner** offers stable performance without cold starts (better than Lambda for Java) and lower baseline cost and setup effort compared to ECS with an ALB.
 
 ### Security Measures
 
-- Enforce **TLS termination** at the load balancer and redirect all HTTP traffic to HTTPS.
-- Manage secrets (API keys, database credentials) with **AWS Secrets Manager** or **SSM Parameter Store**, granting access through fine-grained IAM roles attached to compute tasks.
-- Restrict network access with **security groups** and, if necessary, private subnets with **NAT gateways** for outbound traffic.
+- _Secure communication_: All traffic between the frontend (Vercel) and backend (AWS App Runner) uses HTTPS with AWS-managed certificates to protect data in transit.
+- _Controlled access_: The API accepts requests only from trusted domains through a strict CORS allow-list, blocking any unauthorized origins.
+- _Secret management_: Sensitive values such as API keys are stored in AWS Secrets Manager or SSM
+- _Logging and monitoring_: Application logs are structured, sent to CloudWatch, and exclude sensitive data; alerts can be configured for error rates and unusual activity.
 
 ### Scalability and Cost Considerations
 
-- Configure **auto scaling policies** on ECS services based on CPU/memory utilization or request metrics to handle variable load.
-- Use multi-stage environments (dev/staging/prod) with right-sized task counts and on-demand scaling to control spend.
-- Monitor utilization via **Amazon CloudWatch** and set budgets/alerts to avoid cost overruns.
+The chosen architecture is both highly scalable and cost-efficient.
+
+- _Elastic frontend_: The frontend on Vercel scales automatically through its global CDN — static assets and API calls are served from edge nodes with no manual configuration or extra cost for traffic spikes.
+- _Autoscaling backend_: AWS App Runner scales containers based on concurrency/CPU (set sensible min/max instances). Keep min instances = 1 for stable latency; raise max for traffic spikes.
+- _Avoid unnecessary costs_: App Runner does not require an ALB or NAT, which reduces baseline cost compared to ECS. Keep only one warm instance in low-traffic hours; scale out on demand.
 
 ### Infrastructure as Code
 
-- Automate provisioning with tools such as **Terraform** or **AWS CDK** to version-control infrastructure, enable repeatable deployments, and integrate with CI/CD pipelines.
-- Reuse modules/stacks for networking, ECS services, and load balancers to promote consistency across environments.
+- I would automate the provisioning of the AWS infrastructure using Terraform.
+  This includes defining resources such as the ECR repository, App Runner service, Route 53 domain records, and ACM certificates as code.
+- Secrets would be stored in AWS SSM Parameter Store and accessed securely through least-privilege IAM roles.
+- The CI/CD pipeline (via GitHub Actions with OIDC) would automatically run terraform plan and apply to deploy updates, ensuring consistent, repeatable, and secure infrastructure setup.
