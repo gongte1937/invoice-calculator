@@ -1,7 +1,6 @@
-package com.verifyme.controller;
+package com.verifyme.invoice.resource;
 
-import com.verifyme.invoice.model.InvoiceRequest;
-import com.verifyme.invoice.resource.InvoiceResource;
+import com.verifyme.invoice.dto.InvoiceRequest;
 import com.verifyme.invoice.service.InvoiceService;
 
 import jakarta.ws.rs.BadRequestException;
@@ -22,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class InvoiceControllerUnitTest {
+class InvoiceResourceUnitTest {
 
     @Mock
     private InvoiceService invoiceService;

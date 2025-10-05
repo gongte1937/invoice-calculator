@@ -1,10 +1,10 @@
-package com.verifyme.service;
+package com.verifyme.invoice.service;
 
 import com.verifyme.common.client.FrankfurterClient;
 import com.verifyme.common.client.FrankfurterResponse;
+import com.verifyme.invoice.config.InvoiceConfig;
 import com.verifyme.invoice.model.InvoiceLine;
 import com.verifyme.invoice.dto.InvoicePayload;
-import com.verifyme.invoice.service.InvoiceService;
 
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +31,9 @@ class InvoiceServiceUnitTest {
     @Mock
     private FrankfurterClient frankfurterClient;
 
+    @Mock
+    private InvoiceConfig invoiceConfig;
+
     @InjectMocks
     private InvoiceService invoiceService;
 
@@ -40,6 +42,19 @@ class InvoiceServiceUnitTest {
 
     @BeforeEach
     void setUp() {
+        // Mock InvoiceConfig behavior with lenient stubbing
+        InvoiceConfig.DecimalConfig decimalConfig = mock(InvoiceConfig.DecimalConfig.class);
+        InvoiceConfig.ErrorConfig errorConfig = mock(InvoiceConfig.ErrorConfig.class);
+        
+        lenient().when(decimalConfig.moneyScale()).thenReturn(2);
+        lenient().when(decimalConfig.rateScale()).thenReturn(4);
+        lenient().when(invoiceConfig.decimal()).thenReturn(decimalConfig);
+        
+        lenient().when(errorConfig.exchangeRateFetchErrorTemplate()).thenReturn("cannot fetch exchange rate for %s->%s on %s");
+        lenient().when(errorConfig.exchangeRateNotFoundTemplate()).thenReturn("exchange rate not found for %s->%s on %s");
+        lenient().when(errorConfig.invalidRateTemplate()).thenReturn("invalid rate for %s->%s on %s");
+        lenient().when(invoiceConfig.error()).thenReturn(errorConfig);
+
         testLine = new InvoiceLine();
         testLine.description = "Test Item";
         testLine.currency = "USD";
