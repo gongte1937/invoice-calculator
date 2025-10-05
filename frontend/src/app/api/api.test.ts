@@ -33,22 +33,32 @@ describe("API Functions", () => {
 
       const result = await postInvoiceTotal(mockPayload);
 
+      const expectedPayload = {
+        ...mockPayload,
+        date: "2024-01-15", // Date should be formatted as yyyy-MM-dd string
+      };
+
       expect(result).toBe(expectedTotal);
       expect(mockPost).toHaveBeenCalledWith(
         "/invoice/total",
-        { invoice: mockPayload },
+        { invoice: expectedPayload },
         { responseType: "text" }
       );
     });
 
-    it("wraps payload in invoice object", async () => {
+    it("wraps payload in invoice object with formatted date", async () => {
       mockPost.mockResolvedValueOnce({ data: "100.00 USD" });
 
       await postInvoiceTotal(mockPayload);
 
+      const expectedPayload = {
+        ...mockPayload,
+        date: "2024-01-15", // Date should be formatted as yyyy-MM-dd string
+      };
+
       expect(mockPost).toHaveBeenCalledWith(
         "/invoice/total",
-        { invoice: mockPayload },
+        { invoice: expectedPayload },
         { responseType: "text" }
       );
     });

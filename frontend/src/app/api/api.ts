@@ -10,8 +10,14 @@ export async function postInvoiceTotal(
   payload: InvoiceFormData
 ): Promise<string> {
   try {
+    // Convert Date to yyyy-MM-dd format for backend LocalDate
+    const formattedPayload = {
+      ...payload,
+      date: payload.date.toISOString().split("T")[0],
+    };
+
     // Wrap the payload in the expected format
-    const requestBody = { invoice: payload };
+    const requestBody = { invoice: formattedPayload };
     const res = await api.post<string>("/invoice/total", requestBody, {
       responseType: "text",
     });
